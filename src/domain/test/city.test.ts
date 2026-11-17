@@ -28,12 +28,12 @@ describe("City name", () => {
   });
 
   test("should get the correct accomodation", () => {
-    let accommodation = new Accommodation("Hotel", 100);
+    const accommodation = new Accommodation("Hotel", 100);
     expect(city.getAccommodation()).toEqual(accommodation);
   });
   test("should add the correct accomodation", () => {
-    let accommodation = new Accommodation("Estrella", 50);
-    let accommodation2 = new Accommodation("Estrella", 50);
+    const accommodation = new Accommodation("Estrella", 50);
+    const accommodation2 = new Accommodation("Estrella", 50);
     city.addAccommodation(accommodation);
     expect(city.getAccommodation()).toEqual(accommodation2);
   });
@@ -177,6 +177,7 @@ describe("Duration in days", () => {
       "TestCountry",
       new Date("2023-05-01"),
       new Date("2023-05-01"),
+      "NOTAS",
       new Accommodation("HOTEL", 100),
     );
     expect(singleDayCity.getDurationDays()).toBe(1);

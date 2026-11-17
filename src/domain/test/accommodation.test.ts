@@ -1,6 +1,6 @@
 import { describe, beforeEach, test, expect } from "vitest";
 import Accommodation from "../accommodation.ts";
-import City from "../city.ts";
+
 
 describe("Accommodation", () => {
   let accommodation: Accommodation;
