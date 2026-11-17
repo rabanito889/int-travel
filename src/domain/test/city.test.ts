@@ -177,6 +177,7 @@ describe("Duration in days", () => {
       "TestCountry",
       new Date("2023-05-01"),
       new Date("2023-05-01"),
+      new Accommodation("HOTEL", 100),
     );
     expect(singleDayCity.getDurationDays()).toBe(1);
   });

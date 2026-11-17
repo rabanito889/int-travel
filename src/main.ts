@@ -1,5 +1,6 @@
 import TripManager from "./domain/tripManager.ts";
 import City from "./domain/city.ts";
+import Accommodation from "./domain/accommodation.ts";
 
 const manager = new TripManager();
 const form = document.getElementById("city-form") as HTMLFormElement | null;
@@ -17,19 +18,26 @@ function renderCities(): void {
     tr.dataset.index = String(i);
     const dateFrom = formatDateIso(city.getDateFrom ? city.getDateFrom() : "");
     const dateTo = formatDateIso(city.getDateTo ? city.getDateTo() : "");
+    const accommodationName = city.getAccommodation ? city.getAccommodation().getName() || "" : "";
+    const accommodationCost = city.getAccommodation ? city.getAccommodation().getCost() || "" : "";
     const country = city.getCountry ? city.getCountry() || "" : "";
     const duration = city.getDurationDays() ? city.getDurationDays() : "";
     const notesText = city.getNotes ? String(city.getNotes() || "") : "";
-    const notesHtml = notesText
+    const badge = document.createElement("span");
+    badge.classList.add("badge badge-primary")
+    badge.innerText= country;
+    const notesHtml = notesText 
       ? notesText
       : '<span class="text-muted">Sin datos</span>';
     tr.innerHTML = `<td>
     <strong>${city.getName()}</strong>
     </td>
-    <td>${country}</td>
+    <td>${badge}</td>
     <td>${duration ? `${duration} días` : "—"}</td>
     <td>${dateFrom}</td>
     <td>${dateTo}</td>
+    <td>${accommodationName}</td>
+    <td>${accommodationCost}</td>
     <td>${notesHtml}</td>`;
     citiesTbody.appendChild(tr);
   });
@@ -47,6 +55,10 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     .value;
   const notes = (document.getElementById("city-notes") as HTMLTextAreaElement)
     .value;
+  const accommodationName = (document.getElementById("nombre-alojamiento") as HTMLInputElement)
+  .value;
+  const accommodationCost = parseInt((document.getElementById("costo-alojamiento") as HTMLInputElement)
+    .value);
 
   const city = new City(
     name,
@@ -54,6 +66,7 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     new Date(dateFrom),
     new Date(dateTo),
     notes,
+    new Accommodation(accommodationName, accommodationCost)
   );
   if (!city) {
     showToast("Error", "No se pudo crear la ciudad", "danger");
