@@ -29,7 +29,7 @@ class City {
     return this.#country;
   }
 
-  getAccommodation(): Accommodation{
+  getAccommodation(): Accommodation {
     return this.#accommodation;
   }
 
@@ -138,10 +138,7 @@ class City {
   }
 }
 
-export function calculateDurationDays(
-  dateFrom?: Date,
-  dateTo?: Date,
-): number {
+export function calculateDurationDays(dateFrom?: Date, dateTo?: Date): number {
   if (!dateFrom || !dateTo) return 0;
   const a = new Date(dateFrom);
   const b = new Date(dateTo);
@@ -152,4 +149,3 @@ export function calculateDurationDays(
 }
 
 export default City;
-

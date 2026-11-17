@@ -18,15 +18,21 @@ function renderCities(): void {
     tr.dataset.index = String(i);
     const dateFrom = formatDateIso(city.getDateFrom ? city.getDateFrom() : "");
     const dateTo = formatDateIso(city.getDateTo ? city.getDateTo() : "");
-    const accommodationName = city.getAccommodation ? city.getAccommodation().getName() || "" : "";
-    const accommodationCost = city.getAccommodation ? city.getAccommodation().getCost() || "" : "";
+    const accommodationName = city.getAccommodation
+      ? city.getAccommodation().getName() || ""
+      : "";
+    const accommodationCost = city.getAccommodation
+      ? city.getAccommodation().getCost() || ""
+      : "";
     const country = city.getCountry ? city.getCountry() || "" : "";
     const duration = city.getDurationDays() ? city.getDurationDays() : "";
     const notesText = city.getNotes ? String(city.getNotes() || "") : "";
     const badge = document.createElement("span");
-    badge.classList.add("badge badge-primary")
-    badge.innerText= country;
-    const notesHtml = notesText 
+    badge.classList.add("badge-primary");
+    const label = document.createElement("label");
+    label.innerText = country;
+    badge.append(label); // NO PUDEEEEEEEEEEEE HACER QUE SE VIERA BIEN :(
+    const notesHtml = notesText
       ? notesText
       : '<span class="text-muted">Sin datos</span>';
     tr.innerHTML = `<td>
@@ -55,10 +61,12 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     .value;
   const notes = (document.getElementById("city-notes") as HTMLTextAreaElement)
     .value;
-  const accommodationName = (document.getElementById("nombre-alojamiento") as HTMLInputElement)
-  .value;
-  const accommodationCost = parseInt((document.getElementById("costo-alojamiento") as HTMLInputElement)
-    .value);
+  const accommodationName = (
+    document.getElementById("nombre-alojamiento") as HTMLInputElement
+  ).value;
+  const accommodationCost = parseInt(
+    (document.getElementById("costo-alojamiento") as HTMLInputElement).value,
+  );
 
   const city = new City(
     name,
@@ -66,7 +74,7 @@ function handleCityFormSubmit(e: SubmitEvent): void {
     new Date(dateFrom),
     new Date(dateTo),
     notes,
-    new Accommodation(accommodationName, accommodationCost)
+    new Accommodation(accommodationName, accommodationCost),
   );
   if (!city) {
     showToast("Error", "No se pudo crear la ciudad", "danger");
@@ -91,9 +99,7 @@ function setDefaultDates(): void {
   const from = document.getElementById(
     "city-date-from",
   ) as HTMLInputElement | null;
-  const to = document.getElementById(
-    "city-date-to",
-  ) as HTMLInputElement | null;
+  const to = document.getElementById("city-date-to") as HTMLInputElement | null;
   if (from && !from.value) from.value = today;
   if (to && !to.value) to.value = today;
 }
@@ -124,11 +130,7 @@ function formatDateIso(d: string | Date): string {
   }
 }
 
-function showToast(
-  title: string,
-  message: string,
-  variant = "primary",
-): void {
+function showToast(title: string, message: string, variant = "primary"): void {
   const container = document.getElementById("alert-container");
   if (!container) return;
 

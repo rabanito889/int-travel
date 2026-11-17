@@ -14,10 +14,17 @@ describe("TripManager", () => {
   });
 
   test("find city by name", () => {
-    let accommodation = new Accommodation("Hotel",100);
-    let dateFrom = new Date("01/07/2021");
-    let dateEnd = new Date("01/07/2022")
-    let ciudad = new City("tokyo","japon",dateFrom, dateEnd,"",accommodation);
+    const accommodation = new Accommodation("Hotel", 100);
+    const dateFrom = new Date("01/07/2021");
+    const dateEnd = new Date("01/07/2022");
+    const ciudad = new City(
+      "tokyo",
+      "japon",
+      dateFrom,
+      dateEnd,
+      "",
+      accommodation,
+    );
     manager.addCity(ciudad);
     expect(manager.findCityByName("tokyo")).toEqual(ciudad);
   });
